@@ -1,8 +1,13 @@
 class MatchesController < ApplicationController
 
     def index
-        matches = Match.all
-        render json: matches
+        # byebug
+        if params['game_week']
+            matches = Match.where(game_week: params['game_week'].to_i)
+        else
+            matches = Match.all
+        end
+        render json: matches, include: '*'
     end
 
 end
