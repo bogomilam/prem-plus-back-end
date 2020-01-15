@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :matches
+  get '/matches/:id/simulate', to: 'matches#simulate'
   resources :competitions
   resources :fixtures
   resources :players

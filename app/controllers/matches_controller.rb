@@ -10,4 +10,16 @@ class MatchesController < ApplicationController
         render json: matches, include: '*'
     end
 
+    def simulate
+        match = Match.find(params[:id])
+        render json: { result: match.simulate(user_weightings) }
+    end
+
+
+    private
+
+    def user_weightings
+        params[:user_weightings] || {}
+    end
+
 end

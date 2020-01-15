@@ -21,5 +21,37 @@ class Match < ApplicationRecord
         date = DateTime.strptime(self.date.to_s,'%s')
         date.strftime("%R")
     end
+
+    def simulate_single(user_weightings)
+        possible_goals = (0..10).to_a
+        {
+            home: possible_goals.sample * ((25 + self.home_club.clubStat.win_p_home) / 100.0),
+            away: possible_goals.sample * ((25 + self.away_club.clubStat.win_p_away) / 100.0)
+        }
+    end
+
+
+    def simulate(user_weightings)
+        results = []
+        100.times do
+            results << simulate_single(user_weightings)
+        end
+        {
+            mean: results_to_mean(results)
+        }
+    end
+
+    def results_to_mean(results)
+        totals = results.reduce({ home: 0, away: 0 }) do |total, result| 
+            {
+                home: total[:home] + result[:home],
+                away: total[:away] + result[:away]
+            }
+        end
+        {
+            home: totals[:home].to_f / results.length.to_f, 
+            away: totals[:away].to_f / results.length.to_f 
+        }
+    end
     
 end
