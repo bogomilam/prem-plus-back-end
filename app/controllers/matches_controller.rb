@@ -10,6 +10,11 @@ class MatchesController < ApplicationController
         render json: matches, include: '*'
     end
 
+    def show 
+        match = Match.all.find(params[:id])
+        render json: match
+    end
+
     def simulate
         match = Match.find(params[:id])
         render json: { result: match.simulate(user_weightings) }

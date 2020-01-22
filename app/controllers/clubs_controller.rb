@@ -5,5 +5,10 @@ class ClubsController < ApplicationController
         render json: clubs
     end
 
+    def show
+        club = Club.find(params[:id])
+        render json: club
+    end
+
    
 end

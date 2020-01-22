@@ -46,7 +46,7 @@ def run
     clubs = seed_clubs(data)
     # players = seed_players(data)
     # player_stats = seed_player_stats(data)
-    club_stats = seed_club_stats(data)
+    # club_stats = seed_club_stats(data)
     matches = seed_matches(data)
     # seed_users
   
@@ -74,8 +74,8 @@ def remove_old_seeds
     # PlayerStat.destroy_all
     # puts "Player stats cleared"
 
-    ClubStat.destroy_all
-    puts "Club stats cleared"
+    # ClubStat.destroy_all
+    # puts "Club stats cleared"
 
     Match.destroy_all
     puts "Matches cleared"
@@ -127,9 +127,32 @@ def seed_clubs(data)
             country: c[:country],
             image: c[:image],
             founded: c[:founded],
-            club_id: c[:club_id],
+            id: c[:club_id],
             competition_id: c[:competition_id],
-            average_attendance_home: c[:average_attendance_home]
+            average_attendance_home: c[:average_attendance_home],
+            table_pos: c[:table_pos],
+            played_overall: c[:played_overall],
+            win_home: c[:win_home],
+            win_away:  c[:win_away],
+            draw_home: c[:draw_home],
+            draw_away: c[:draw_away],
+            loss_home: c[:loss_home],
+            loss_away: c[:loss_away],
+            goals_home: c[:goals_home],
+            goals_away: c[:goals_away],
+            concede_home: c[:concede_home],
+            concede_away: c[:concede_away],
+            possessionAVG_overall: c[:possessionAVG_overall],
+            cs_home: c[:cs_home],
+            cs_away: c[:cs_away],
+            fts_home: c[:fts_home],
+            fts_away: c[:fts_away],
+            btts_home: c[:btts_home],
+            btts_away: c[:btts_away],
+            ppg_home: c[:ppg_home],
+            ppg_away: c[:ppg_away],
+            win_p_home: c[:win_p_home],
+            win_p_away: c[:win_p_away]
         )
     end
     puts "Clubs seeded"
@@ -173,44 +196,44 @@ end
 #     puts "Player Stats seeded"
 # end
 
-def seed_club_stats(data)
-    club_stats = data[:club_stats_array]
-    club_stats.each do |c|
-        ClubStat.create(
-            club_id: Club.find_by(club_id:c[:club_id]).id,
-            table_pos: c[:table_pos],
-            played_overall: c[:played_overall],
-            win_home: c[:win_home],
-            win_away:  c[:win_away],
-            draw_home: c[:draw_home],
-            draw_away: c[:draw_away],
-            loss_home: c[:loss_home],
-            loss_away: c[:loss_away],
-            goals_home: c[:goals_home],
-            goals_away: c[:goals_away],
-            concede_home: c[:concede_home],
-            concede_away: c[:concede_away],
-            possessionAVG_overall: c[:possessionAVG_overall],
-            cs_home: c[:cs_home],
-            cs_away: c[:cs_away],
-            fts_home: c[:fts_home],
-            fts_away: c[:fts_away],
-            btts_home: c[:btts_home],
-            btts_away: c[:btts_away],
-            ppg_home: c[:ppg_home],
-            ppg_away: c[:ppg_away],
-            win_p_home: c[:win_p_home],
-            win_p_away: c[:win_p_away]
-        )
-    end
-    puts "Club Stats seeded"
-end
+# def seed_club_stats(data)
+#     club_stats = data[:club_stats_array]
+#     club_stats.each do |c|
+#         ClubStat.create(
+#             club_id: Club.find_by(club_id:c[:club_id]).id,
+#             table_pos: c[:table_pos],
+#             played_overall: c[:played_overall],
+#             win_home: c[:win_home],
+#             win_away:  c[:win_away],
+#             draw_home: c[:draw_home],
+#             draw_away: c[:draw_away],
+#             loss_home: c[:loss_home],
+#             loss_away: c[:loss_away],
+#             goals_home: c[:goals_home],
+#             goals_away: c[:goals_away],
+#             concede_home: c[:concede_home],
+#             concede_away: c[:concede_away],
+#             possessionAVG_overall: c[:possessionAVG_overall],
+#             cs_home: c[:cs_home],
+#             cs_away: c[:cs_away],
+#             fts_home: c[:fts_home],
+#             fts_away: c[:fts_away],
+#             btts_home: c[:btts_home],
+#             btts_away: c[:btts_away],
+#             ppg_home: c[:ppg_home],
+#             ppg_away: c[:ppg_away],
+#             win_p_home: c[:win_p_home],
+#             win_p_away: c[:win_p_away]
+#         )
+#     end
+#     puts "Club Stats seeded"
+# end
 
 def seed_matches(data)
     matches = data[:matches_array]
     matches.each_with_index do |m, i|
-        home_club = Club.find_by(club_id:m[:home_id])
-        away_club = Club.find_by(club_id:m[:away_id])
+        home_club = Club.find_by(id:m[:home_id])
+        away_club = Club.find_by(id:m[:away_id])
 
         my_match = Match.create(
             home_id: home_club.id,

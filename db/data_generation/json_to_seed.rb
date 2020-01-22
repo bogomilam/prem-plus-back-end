@@ -15,7 +15,7 @@ def model_data(data_hash)
     # position_hash = getPositions
     # player_array = getPlayers(data_hash)
     # player_stats_array = getPlayerStats(data_hash)
-    club_stats_array = getClubStats(data_hash)
+    # club_stats_array = getClubStats(data_hash)
     matches_array = getMatches(data_hash)
 
     data = {
@@ -26,7 +26,7 @@ def model_data(data_hash)
         # :position_hash => position_hash, 
         # :player_array => player_array,
         # :player_stats_array => player_stats_array,
-        :club_stats_array => club_stats_array,
+        # :club_stats_array => club_stats_array,
         :matches_array => matches_array
     }
 end
@@ -80,11 +80,100 @@ def getClubs(data_hash)
         club[:founded] = c["founded"].to_i
         club[:stadium_id] = nil
         club[:average_attendance_home] = c["stats"]["average_attendance_overall"]
+        club[:club_id] = c["id"]
+        club[:table_pos] = c["table_position"]
+        club[:played_overall] = c["stats"]["seasonMatchesPlayed_overall"]
+        club[:win_home] = c["stats"]["winPercentage_home"]
+        club[:win_away] = c["stats"]["winPercentage_away"]
+        club[:draw_home] = c["stats"]["drawPercentage_home"]
+        club[:draw_away] = c["stats"]["drawPercentage_away"]
+        club[:loss_home] = c["stats"]["losePercentage_home"]
+        club[:loss_away] = c["stats"]["losePercentage_away"]
+        club[:goals_home] = c["stats"]["seasonScoredNum_home"]
+        club[:goals_away] = c["stats"]["seasonScoredNum_away"]
+        club[:concede_home] = c["stats"]["seasonConcededNum_home"]
+        club[:concede_away] = c["stats"]["seasonConcededNum_away"]
+        club[:possessionAVG_overall] = c["stats"]["possessionAVG_overall"]
+        club[:cs_home] = c["stats"]["seasonCS_home"]
+        club[:cs_away] = c["stats"]["seasonCS_away"]
+        club[:fts_home] = c["stats"]["seasonFTS_home"]
+        club[:fts_away] = c["stats"]["seasonFTS_away"]
+        club[:btts_home] = c["stats"]["seasonBTTS_home"]
+        club[:btts_away] = c["stats"]["seasonBTTS_away"]
+        club[:ppg_home] = c["stats"]["seasonPPG_home"]
+        club[:ppg_away] = c["stats"]["seasonPPG_away"]
+        club[:win_p_home] = c["stats"]["winPercentage_home"]
+        club[:win_p_away] = c["stats"]["winPercentage_away"]
         club_array << club
     end
     #clubs array has hashes of clubs with required data, except stadium_id=>nil
     club_array
 end
+
+# def getClubStats(data_hash)
+#     club_stats_array = []
+#     club_stats_hash = data_hash["teams"]["data"]
+    
+#     club_stats_hash.map do |c|
+#         club = {}
+#         club[:club_id] = c["id"]
+#         club[:table_pos] = c["table_position"]
+#         club[:played_overall] = c["stats"]["seasonMatchesPlayed_overall"]
+#         club[:win_home] = c["stats"]["winPercentage_home"]
+#         club[:win_away] = c["stats"]["winPercentage_away"]
+#         club[:draw_home] = c["stats"]["drawPercentage_home"]
+#         club[:draw_away] = c["stats"]["drawPercentage_away"]
+#         club[:loss_home] = c["stats"]["losePercentage_home"]
+#         club[:loss_away] = c["stats"]["losePercentage_away"]
+#         club[:goals_home] = c["stats"]["seasonScoredNum_home"]
+#         club[:goals_away] = c["stats"]["seasonScoredNum_away"]
+#         club[:concede_home] = c["stats"]["seasonConcededNum_home"]
+#         club[:concede_away] = c["stats"]["seasonConcededNum_away"]
+#         club[:possessionAVG_overall] = c["stats"]["possessionAVG_overall"]
+#         club[:cs_home] = c["stats"]["seasonCS_home"]
+#         club[:cs_away] = c["stats"]["seasonCS_away"]
+#         club[:fts_home] = c["stats"]["seasonFTS_home"]
+#         club[:fts_away] = c["stats"]["seasonFTS_away"]
+#         club[:btts_home] = c["stats"]["seasonBTTS_home"]
+#         club[:btts_away] = c["stats"]["seasonBTTS_away"]
+#         club[:ppg_home] = c["stats"]["seasonPPG_home"]
+#         club[:ppg_away] = c["stats"]["seasonPPG_away"]
+#         club[:win_p_home] = c["stats"]["winPercentage_home"]
+#         club[:win_p_away] = c["stats"]["winPercentage_away"]
+#         club_stats_array << club
+#     end
+#     club_stats_array
+# end
+
+def getMatches(data_hash)
+    matches_array = []
+    matches_hash = data_hash["matches"]["data"]
+    
+    matches_hash.map do |m|
+        match = {}
+        match[:home_id] = m["homeID"]
+        match[:away_id] = m["awayID"]
+        match[:home_goal_count] = m["homeGoalCount"]
+        match[:away_goal_count] = m["awayGoalCount"]
+        match[:stadium_name] = m["stadium_name"]
+        match[:date] = m["date_unix"]
+        match[:attendance] = m["attendance"]
+        match[:status] = m["status"]
+        match[:fs_match_id] = m["id"]
+        match[:fs_competition_id] = m["competition_id"]
+        match[:game_week] = m["game_week"]
+        matches_array << match
+    end
+    matches_array
+end
+
+def run_json_to_seed
+    data_hash = import_json
+    model_data(data_hash)
+end
+
+run_json_to_seed
+
 
 # def getPositions
 #     position_hash = {
@@ -142,67 +231,3 @@ end
 #     end
 #     player_stats_array
 # end
-
-def getClubStats(data_hash)
-    club_stats_array = []
-    club_stats_hash = data_hash["teams"]["data"]
-
-    club_stats_hash.map do |c|
-        club = {}
-        club[:club_id] = c["id"]
-        club[:table_pos] = c["table_position"]
-        club[:played_overall] = c["stats"]["seasonMatchesPlayed_overall"]
-        club[:win_home] = c["stats"]["winPercentage_home"]
-        club[:win_away] = c["stats"]["winPercentage_away"]
-        club[:draw_home] = c["stats"]["drawPercentage_home"]
-        club[:draw_away] = c["stats"]["drawPercentage_away"]
-        club[:loss_home] = c["stats"]["losePercentage_home"]
-        club[:loss_away] = c["stats"]["losePercentage_away"]
-        club[:goals_home] = c["stats"]["seasonScoredNum_home"]
-        club[:goals_away] = c["stats"]["seasonScoredNum_away"]
-        club[:concede_home] = c["stats"]["seasonConcededNum_home"]
-        club[:concede_away] = c["stats"]["seasonConcededNum_away"]
-        club[:possessionAVG_overall] = c["stats"]["possessionAVG_overall"]
-        club[:cs_home] = c["stats"]["seasonCS_home"]
-        club[:cs_away] = c["stats"]["seasonCS_away"]
-        club[:fts_home] = c["stats"]["seasonFTS_home"]
-        club[:fts_away] = c["stats"]["seasonFTS_away"]
-        club[:btts_home] = c["stats"]["seasonBTTS_home"]
-        club[:btts_away] = c["stats"]["seasonBTTS_away"]
-        club[:ppg_home] = c["stats"]["seasonPPG_home"]
-        club[:ppg_away] = c["stats"]["seasonPPG_away"]
-        club[:win_p_home] = c["stats"]["winPercentage_home"]
-        club[:win_p_away] = c["stats"]["winPercentage_away"]
-        club_stats_array << club
-    end
-    club_stats_array
-end
-
-def getMatches(data_hash)
-    matches_array = []
-    matches_hash = data_hash["matches"]["data"]
-
-    matches_hash.map do |m|
-        match = {}
-        match[:home_id] = m["homeID"]
-        match[:away_id] = m["awayID"]
-        match[:home_goal_count] = m["homeGoalCount"]
-        match[:away_goal_count] = m["awayGoalCount"]
-        match[:stadium_name] = m["stadium_name"]
-        match[:date] = m["date_unix"]
-        match[:attendance] = m["attendance"]
-        match[:status] = m["status"]
-        match[:fs_match_id] = m["id"]
-        match[:fs_competition_id] = m["competition_id"]
-        match[:game_week] = m["game_week"]
-        matches_array << match
-    end
-    matches_array
-end
-
-def run_json_to_seed
-    data_hash = import_json
-    model_data(data_hash)
-end
-
-run_json_to_seed

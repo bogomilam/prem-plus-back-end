@@ -23,10 +23,10 @@ class Match < ApplicationRecord
     end
 
     def simulate_single(user_weightings)
-        possible_goals = (0..10).to_a
+        possible_goals = (0..4).to_a
         {
-            home: possible_goals.sample * ((25 + self.home_club.clubStat.win_p_home) / 100.0),
-            away: possible_goals.sample * ((25 + self.away_club.clubStat.win_p_away) / 100.0)
+            home: possible_goals.sample * ((22 + self.home_club.win_p_home) / 100.0),
+            away: possible_goals.sample * ((20 + self.away_club.win_p_away) / 100.0)
         }
     end
 

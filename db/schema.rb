@@ -10,13 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_10_111746) do
+ActiveRecord::Schema.define(version: 2020_01_15_165158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "club_stats", force: :cascade do |t|
-    t.integer "club_id"
+  create_table "clubs", force: :cascade do |t|
+    t.integer "competition_id"
+    t.string "name"
+    t.string "shorthand"
+    t.string "image"
+    t.integer "founded"
+    t.string "country"
+    t.integer "average_attendance_home"
     t.integer "table_pos"
     t.integer "played_overall"
     t.integer "win_home"
@@ -44,19 +50,6 @@ ActiveRecord::Schema.define(version: 2020_01_10_111746) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "clubs", force: :cascade do |t|
-    t.integer "club_id"
-    t.integer "competition_id"
-    t.string "name"
-    t.string "shorthand"
-    t.string "image"
-    t.integer "founded"
-    t.string "country"
-    t.integer "average_attendance_home"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "competitions", force: :cascade do |t|
     t.string "name"
     t.integer "league_id"
@@ -76,6 +69,14 @@ ActiveRecord::Schema.define(version: 2020_01_10_111746) do
     t.integer "fs_match_id"
     t.integer "competition_id"
     t.integer "game_week"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.integer "club_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
