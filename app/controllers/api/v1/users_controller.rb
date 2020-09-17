@@ -33,7 +33,7 @@ class Api::V1::UsersController < ApplicationController
         end
     end
 
-    def destroy 
+    def delete
         user = User.find(params[:id])
         if user.destroy(club_id: params[:club_id])
             render json: user
